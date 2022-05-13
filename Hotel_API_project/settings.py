@@ -53,6 +53,8 @@ INSTALLED_APPS = [
 
     #Local
     'users.apps.UsersConfig',
+    'rooms.apps.RoomsConfig',
+    'reports.apps.ReportsConfig',
 ]
 
 MIDDLEWARE = [

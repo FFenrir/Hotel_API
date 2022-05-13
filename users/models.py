@@ -10,7 +10,7 @@ from django.contrib.auth.models import PermissionsMixin
 
 class EmployeeModelManager(BaseUserManager):
     
-    def create_user(self,name,surname,phone_number,position,password,department,**extra_fields,):
+    def create_user(self,name,surname,phone_number,position,password,**extra_fields,):
         if not surname:
             raise ValueError(_('Surname field must be filled'))
         user = self.model()
@@ -18,19 +18,17 @@ class EmployeeModelManager(BaseUserManager):
         user.surname = surname
         user.phone_number = phone_number
         user.position = position
-        user.department = department
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self,name,surname,phone_number,password,position,department,**extra_fields,):
+    def create_superuser(self,name,surname,phone_number,password,position,**extra_fields,):
 
         user = self.model()
         user.name = name
         user.surname = surname
         user.phone_number = phone_number
         user.position = position
-        user.department = department
         user.set_password(password)
         user.save()
 
@@ -49,6 +47,10 @@ class EmployeeModelManager(BaseUserManager):
 
         # MAKE IT WORK!
 
+
+class Department(models.Model):
+    name = models.CharField(max_length=100,null=True)
+
 class Employee(AbstractBaseUser,PermissionsMixin):
     username = None
     email = None
@@ -56,6 +58,7 @@ class Employee(AbstractBaseUser,PermissionsMixin):
     surname = models.CharField(max_length=30,unique=True)
     phone_number = models.IntegerField(null=True)
     position = models.CharField(max_length=70,null=True)
+    department = models.ForeignKey(Department,on_delete=models.DO_NOTHING,null=True)
 
     USERNAME_FIELD = 'surname'
     REQUIRED_FIELDS = ['name','phone_number','position']
@@ -65,13 +68,11 @@ class Employee(AbstractBaseUser,PermissionsMixin):
     def is_staff(self):
         return self.is_staff
 
-    
-    def is_superuser(self):        
-        return self.is_superuser
-
-
     def is_active(self):
         return self.is_active
+
+    def is_superuser(self):
+        return self.is_superuser    
 
     def __str__(self):
         return f"{self.surname} {self.name} {self.phone_number} {self.position}"
