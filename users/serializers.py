@@ -37,3 +37,10 @@ class EmployeeRegisterSerializer(RegisterSerializer):
         user.save()
         adapter.save_user(request,user,self)
         return user    
+
+
+class EmployeeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Employee
+        fields = ('surname','name','phone_number','position',)
