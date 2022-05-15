@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'rooms.apps.RoomsConfig',
     'reports.apps.ReportsConfig',
+    'clients.apps.ClientsConfig',
 ]
 
 MIDDLEWARE = [
